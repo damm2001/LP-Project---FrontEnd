@@ -26,6 +26,12 @@
                 <td mat-cell *matCellDef="let element">  {{element.disponibilidad}} </td>
             </ng-container>
             <!-- FIN -->
+            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+            <ng-container matColumnDef="valoracion">
+                <th mat-header-cell *matHeaderCellDef> valoracion </th>
+                <td mat-cell *matCellDef="let element">  {{element.valoracion}} </td>
+            </ng-container>
+            <!-- FIN -->
   
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

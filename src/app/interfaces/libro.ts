@@ -3,4 +3,5 @@ export interface Libro {
     autor:string,
     edicion:string,
     disponibilidad:string,
+    valoracion: number
 }

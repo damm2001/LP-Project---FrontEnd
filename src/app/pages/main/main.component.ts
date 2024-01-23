@@ -11,7 +11,7 @@ import { DatosProvedorService } from 'src/app/providers/datos-provedor.service';
 })
 export class MainComponent {
    /* LISTA CON LOS ATRIBUTOS DE LA INTERFAZ */
-  displayedColumns: string[] = ['titulo','autor','autor','disponibilidad'];
+  displayedColumns: string[] = ['titulo','autor','edicion','disponibilidad','valoracion'];
   //Atributo con el tipo de dato de la interfaz
   public data : Libro[] = [];
   //Inyección de dependencia del servicio
