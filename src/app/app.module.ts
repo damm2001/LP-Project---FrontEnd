@@ -27,7 +27,8 @@ import {MatSelectModule} from '@angular/material/select';
     AppComponent,
     MainComponent,
     AboutComponent,
-    MenuComponent
+    MenuComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
@@ -41,8 +42,8 @@ import {MatSelectModule} from '@angular/material/select';
     FlexLayoutModule,
     HttpClientModule,
     MatTableModule,
-    MatSelectModule,
-    ReportComponent
+    MatSelectModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

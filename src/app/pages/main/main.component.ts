@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 //Importación de la interfaz
-import { DatosInter} from 'src/app/interfaces/datos-inter';
 import { Libro} from 'src/app/interfaces/libro';
 //Importación del servicio
 import { DatosProvedorService } from 'src/app/providers/datos-provedor.service';

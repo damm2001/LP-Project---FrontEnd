@@ -22,6 +22,7 @@ export class DatosProvedorService {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': 'http://localhost:4200/main'  // Cambia esto con el origen de tu aplicación Angular
     });
+    
 
     // Realiza la solicitud con las cabeceras configuradas
     return this.http.get(this.URL, { headers });

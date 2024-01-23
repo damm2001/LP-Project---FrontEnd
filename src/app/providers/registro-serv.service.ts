@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RegistroServService {
 
    //Atributo URL
-   private URL: string = 'http://127.0.0.1:4567';
+   private URL: string = 'http://127.0.0.1:4567/api/students';
 
   //Inyección de dependencia del HttpClient
   constructor(private http:HttpClient) { }
