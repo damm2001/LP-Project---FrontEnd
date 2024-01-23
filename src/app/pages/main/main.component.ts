@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 //Importación de la interfaz
 import { DatosInter} from 'src/app/interfaces/datos-inter';
+import { Libro} from 'src/app/interfaces/libro';
 //Importación del servicio
 import { DatosProvedorService } from 'src/app/providers/datos-provedor.service';
 @Component({
@@ -10,16 +11,16 @@ import { DatosProvedorService } from 'src/app/providers/datos-provedor.service';
 })
 export class MainComponent {
    /* LISTA CON LOS ATRIBUTOS DE LA INTERFAZ */
-  displayedColumns: string[] = ['id','nombre_usuario','correo_electronico','contrasena'];
+  displayedColumns: string[] = ['titulo','autor','autor','disponibilidad'];
   //Atributo con el tipo de dato de la interfaz
-  public data : DatosInter[] = [];
+  public data : Libro[] = [];
   //Inyección de dependencia del servicio
   constructor(private dataProvider: DatosProvedorService) { }
 
   //Ejecución de la petición y suscripción de la respuesta
   ngOnInit() {
     this.dataProvider.getResponse().subscribe((response) => { 
-      this.data = (response as DatosInter[]); 
+      this.data = (response as Libro[]); 
       console.log(this.data);
     })
   }
