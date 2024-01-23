@@ -32,7 +32,7 @@ export class ReportComponent {
    //Atributo con el tipo de dato de la interfaz
    public data : Estudiante[] = [];
    //Inyección de dependencia del servicio
-   constructor(private dataProvider: DatosProvedorService) { }
+   constructor(private dataProvider: RegistroServService) { }
  
    //Ejecución de la petición y suscripción de la respuesta
    ngOnInit() {
