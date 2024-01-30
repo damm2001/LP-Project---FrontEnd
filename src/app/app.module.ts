@@ -21,6 +21,8 @@ import { MatCardModule } from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatSelectModule} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import {MatSelectModule} from '@angular/material/select';
     FlexLayoutModule,
     HttpClientModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    FormsModule
     
   ],
   providers: [],
