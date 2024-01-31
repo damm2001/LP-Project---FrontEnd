@@ -1,3 +1,10 @@
+<div class="search-bar">
+  <form (submit)="searchForm()">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por título o autor" />
+    <button mat-button type="submit">Buscar</button>
+  </form>
+</div>
+
 <div class="container container-buttons" fxLayout="row" fxLayoutAlign="start start">
     <!-- Agrega el botón de agregar libro -->
     <button mat-raised-button color="primary" class="button-agregar-libro" (click)="agregarLibro()">Agregar Libro</button>
