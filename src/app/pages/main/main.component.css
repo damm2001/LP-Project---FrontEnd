@@ -13,6 +13,21 @@
     margin-left: 180px;
 }
 
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* Ajusta este valor según sea necesario para centrarlo verticalmente */
+  }
+
+  input[type="text"] {
+    width: 300px; 
+    padding: 10px;
+    font-size: 16px; 
+    margin-right: 10px; 
+  }
+
+
 /* Estilos para el botón */
 .button-agregar-libro {
     font-size: 1.3em; /* Puedes ajustar este valor según sea necesario */

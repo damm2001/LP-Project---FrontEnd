@@ -22,6 +22,7 @@ import {MatTableModule} from '@angular/material/table';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     MatTableModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatInputModule
     
   ],
   providers: [],
