@@ -80,7 +80,7 @@ export class MainComponent {
   editarLibro(libro: Libro) {
     if (libro) {
       // Asigna solo las propiedades que se pueden editar
-      this.libroEditado = { titulo: libro.titulo, autor: '', edicion: '', disponibilidad: false, valoracion: 0 };
+      this.libroEditado = { titulo: libro.titulo, autor: '', edicion: '', disponibilidad: libro.disponibilidad, valoracion: libro.valoracion };
       this.libroOriginal = { ...libro };
       this.mostrarFormEdicion = true;
       this.modoEdicion = true;
