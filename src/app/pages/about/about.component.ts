@@ -53,12 +53,39 @@ export class AboutComponent {
   }
 
   guardarReserva(){
-    console.log(this.nuevaReserva);
+    //console.log(this.nuevaReserva);
     this.editarDispLibro(this.nuevaReserva.libro);
+    // Puedes enviar la información del nuevo libro al backend aquí usando HTTP POST
+    const url = 'http://localhost:4567/api/studentsbooks'; // Cambia la URL según tu configuración
 
+    // Realiza la solicitud POST
+    this.http.post(url, this.nuevaReserva).subscribe(
+      (response) => {
+        console.log('Reserva guardado exitosamente:', response);
 
+        // Después de guardar, puedes limpiar el formulario y ocultar el formulario nuevamente
+        this.libroSeleccionado = null;
+        this.nuevaReserva.estudiante = '';  // Limpiar el estudiante seleccionado
+        this.nuevaReserva.libro = '';  // Limpiar el libro seleccionado
+        this.mostrarReserva = false;
 
+        this.actualizarReservas();
+      },
+      (error) => {
+        console.error('Error al guardar la reserva:', error);
+        // Puedes manejar errores aquí
+      }
+    );
   }
+
+  actualizarReservas(){
+    this.dataProvider.getResponse().subscribe((response) => { 
+      this.data = (response as EstudianteLibro[]); 
+      console.log(this.data);
+    })
+  }
+
+  
 
   
 
@@ -136,6 +163,7 @@ export class AboutComponent {
   }
 
   seleccionarLibro(event: any) {
+
     const libroSeleccionadoTitulo = event.target.value;
     this.libroSeleccionado = this.listaLibros.find(libro => libro.titulo === libroSeleccionadoTitulo) || null;
 
