@@ -17,19 +17,16 @@ import { RegistroServService } from 'src/app/providers/registro-serv.service';
 
 export class ReportComponent {
 
-   /* LISTA CON LOS ATRIBUTOS DE LA INTERFAZ */
-   displayedColumns: string[] = ['nombre','correo','nombre_usuario'];
-   //Atributo con el tipo de dato de la interfaz
-   public data : Estudiante[] = [];
-   //Inyección de dependencia del servicio
-   constructor(private dataProvider: RegistroServService) { }
- 
-   //Ejecución de la petición y suscripción de la respuesta
-   ngOnInit() {
-     this.dataProvider.getResponse().subscribe((response) => { 
-       this.data = (response as Estudiante[]); 
-       console.log(this.data);
-     })
-   }
+  displayedColumns: string[] = ['nombre', 'correo', 'nombre_usuario'];
+  public data: Estudiante[] = [];
 
+  constructor(private dataProvider: RegistroServService) {}
+
+  ngOnInit() {
+    this.dataProvider.getResponse().subscribe((response) => {
+      this.data = response as Estudiante[];
+      console.log(this.data);
+    });
+  }
 }
+

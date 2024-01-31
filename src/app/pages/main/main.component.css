@@ -1,17 +1,19 @@
-.container-main {
+.main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 100px;
-}
-
-.container-buttons {
-    display: flex;
     justify-content: center;
-    margin-top: 40px;
-    margin-left: 180px;
-}
+    height: 100vh;
+  }
+  
+  .container-buttons {
+    margin-top: 20px;
+  }
+  
+  .container-main {
+    width: 60%;
+    max-width: 1200px;
+  }
 
 .search-bar {
     display: flex;
