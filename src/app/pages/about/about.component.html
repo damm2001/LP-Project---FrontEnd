@@ -1,5 +1,30 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center start">
+<div class="container container-buttons" fxLayout="row" fxLayoutAlign="center center">
+    <!-- Agrega el botón de agregar libro -->
+    <button mat-raised-button color="primary" class="button-reserva" (click)="hacerReserva()">Realizar reserva</button>
+</div>
+
+<div class="container container-main" fxLayout="row" fxLayoutAlign="center start">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%">
+
+        <div *ngIf="mostrarReserva" class="reserva-container">
+            <h2>Realizar reserva</h2>
+            <form (ngSubmit)="guardarReserva()" #libroForm="ngForm">
+              <div>
+                <label for="estudiante">Estudiante:</label>
+                <select id="estudiante" name="estudiante" [(ngModel)]="nuevaReserva.estudiante" required>
+                    <option *ngFor="let estudiante of listaEstudiantes" [value]="estudiante.nombre">{{ estudiante.nombre }}</option>
+                </select>              
+              </div>
+              <div>
+                <label for="libro">Libro:</label>
+                <select id="libro" name="libro" [(ngModel)]="nuevaReserva.libro" (change)="seleccionarLibro($event)" required>
+                    <option *ngFor="let libro of listaLibros" [value]="libro.titulo">{{ libro.titulo }}</option>
+                </select>              
+              </div>
+              <button type="submit">Guardar</button>
+            </form>
+          </div>
+
         <table mat-table [dataSource]="data" class="mat-elevation-z8">
   
             <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
