@@ -36,46 +36,39 @@ export class MainComponent {
     })
   }
 
+  search() {
+
+    console.log("Titulo a buscar: ", this.searchTerm);
+    const url = `http://localhost:4567/api/books/buscar?termino=${encodeURIComponent(this.searchTerm)}`;
+    console.log("url: ",url);
+
+    // Realiza la solicitud GET
+    this.http.get(url).subscribe(
+      (response: any) => {
+        console.log('Libros encontrados:', response);
+        // Actualiza la lista de libros filtrados con los resultados de la búsqueda
+        this.filteredData = response;
+        this.data = (this.filteredData as Libro[]); 
+        console.log(this.data);
+      },
+      (error) => {
+        console.error('Error al buscar libros:', error);
+      }
+    );
+
+  }
+
   agregarLibro() {
     console.log('Clic en agregar libro');
     this.mostrarFormulario = true;
     console.log('mostrarFormulario:', this.mostrarFormulario);
   }
 
+  editarLibro(){
 
-  searchForm() {
-    // Llama al método search() con los valores actuales de searchTerm
-    //this.search(this.searchTerm);
-    console.log('Término de búsqueda:', this.searchTerm);
   }
 
-  search() {
-    console.log("Titulo a buscar: ", this.searchTerm);
-
-    const url = `http://localhost:4567/api/books/buscar?termino=${encodeURIComponent(this.searchTerm)}`;
-
-    console.log("url: ",url)
-
-    // Cambia la URL y la estructura de la consulta según tu configuración en el backend
-  
-    // Realiza la solicitud GET
-    this.http.get(url).subscribe(
-      (response: any) => {
-        console.log('Libros encontrados:', response);
-  
-        // Actualiza la lista de libros filtrados con los resultados de la búsqueda
-        this.filteredData = response;
-        this.data = (this.filteredData as Libro[]); 
-        console.log(this.data);
-  
-        // Puedes realizar otras acciones si es necesario
-      },
-      (error) => {
-        console.error('Error al buscar libros:', error);
-        // Puedes manejar errores aquí
-      }
-    );
-
+  eliminarLibro(){
 
   }
 

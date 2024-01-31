@@ -1,3 +1,4 @@
+
 <div class="search-bar">
   <form (submit)="search()">
     <input type="text" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Buscar por título o autor" />
@@ -5,11 +6,16 @@
   </form>
 </div>
 
-<div class="container container-buttons" fxLayout="row" fxLayoutAlign="start start">
+<div class="container container-buttons" fxLayout="row" fxLayoutAlign="center start">
     <!-- Agrega el botón de agregar libro -->
-    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="agregarLibro()">Agregar Libro</button>
+    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="agregarLibro()">Agregar</button>
+    <div style="margin-right: 10px;"></div>
+    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="editarLibro()">Editar</button>
+    <div style="margin-right: 10px;"></div>
+    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="eliminarLibro()">Eliminar</button>
+    
   </div>
-
+<p></p>
 <div class="container container-main" fxLayout="row" fxLayoutAlign="center start">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%">
 
@@ -78,3 +84,5 @@
 
     </div>
   </div>
+
+
