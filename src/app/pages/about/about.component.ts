@@ -61,7 +61,7 @@ export class AboutComponent {
     // Realiza la solicitud POST
     this.http.post(url, this.nuevaReserva).subscribe(
       (response) => {
-        console.log('Reserva guardado exitosamente:', response);
+        console.log('Reserva guardada exitosamente:', response);
 
         // Después de guardar, puedes limpiar el formulario y ocultar el formulario nuevamente
         this.libroSeleccionado = null;
