@@ -1,6 +1,6 @@
 <div class="search-bar">
-  <form (submit)="searchForm()">
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por título o autor" />
+  <form (submit)="search()">
+    <input type="text" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Buscar por título o autor" />
     <button mat-button type="submit">Buscar</button>
   </form>
 </div>
