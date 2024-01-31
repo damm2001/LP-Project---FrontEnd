@@ -13,9 +13,33 @@
     <button mat-raised-button color="primary" class="button-agregar-libro" (click)="editarLibro()">Editar</button>
     <div style="margin-right: 10px;"></div>
     <button mat-raised-button color="primary" class="button-agregar-libro" (click)="eliminarLibro()">Eliminar</button>
-    
+    <div style="margin-right: 10px;"></div>
+    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="valorarLibro()">Valorar</button>
   </div>
 <p></p>
+
+<div class="container container-main" fxLayout="row" fxLayoutAlign="center start">
+  <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%">
+
+      <div *ngIf="mostrarValoracion" class="reserva-container">
+          <h2>Realizar Valoracion</h2>
+          <form (ngSubmit)="guardarValoracion()" #libroForm="ngForm">
+            <div>
+              <label for="libro">Libro:</label>
+              <select id="libro" name="libro" [(ngModel)]="libroaCambiar.titulo" (change)="seleccionarLibro($event)" required>
+                  <option *ngFor="let libro of listaLibros" [value]="libro.titulo">{{ libro.titulo }}</option>
+              </select>              
+            </div>
+            <div>
+              <label for="libro">Valoracion:</label>
+              <select id="valoracion" name="valoracion" [(ngModel)]="libroaCambiar.valoracion" required>
+                <option *ngFor="let num of [1, 2, 3, 4, 5]" [value]="num">{{ num }}</option>
+              </select>
+            </div>
+            <button type="submit">Guardar</button>
+          </form>
+        </div>
+
 <div class="container container-main" fxLayout="row" fxLayoutAlign="center start">
     <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%">
 

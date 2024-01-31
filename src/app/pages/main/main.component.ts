@@ -21,10 +21,14 @@ export class MainComponent {
   public data : Libro[] = [];
   //LOGICA AGREGAR NUEVO LIBRO
   nuevoLibro: Libro = { titulo: '', autor: '', edicion: '', disponibilidad:false, valoracion: 0 };
+  libroaCambiar : Libro = { titulo: '', autor: '', edicion: '', disponibilidad:false, valoracion: 0 };
   mostrarFormulario: boolean = false;
   public filteredData: Libro[] = [];  // Nuevo array para almacenar resultados filtrados
   searchTerm: string = '';
-
+  mostrarValoracion: boolean = false;
+  public listaLibros: Libro[] = [];  // Nuevo array para almacenar resultados filtrados
+  libroSeleccionado: Libro | null = null;
+  libroSeleccionadoValoracion: Libro | null = null;
   //Inyección de dependencia del servicio
   constructor(private dataProvider: DatosProvedorService, private http: HttpClient) { }
 
@@ -72,6 +76,13 @@ export class MainComponent {
 
   }
 
+  valorarLibro(){
+    console.log('Clic en hacer reserva');
+    this.obtenerListaLibrosDisponibles();
+
+    console.log('mostrarFormulario:');
+    this.mostrarValoracion= true;
+  }
 
   guardarLibro() {
     // Puedes enviar la información del nuevo libro al backend aquí usando HTTP POST
@@ -99,6 +110,15 @@ export class MainComponent {
     );
   }
 
+  guardarValoracion(){
+    this.editarValoracionLibro(this.libroaCambiar.titulo);
+    this.mostrarValoracion = false;
+    this.libroSeleccionadoValoracion = null;
+    this.libroaCambiar.titulo = '';  // Limpiar el estudiante seleccionado
+    this.libroaCambiar.valoracion = 0;  // Limpiar el libro seleccionado
+    this.obtenerListaLibros();
+  }
+
 
   // Nueva función para obtener la lista actualizada de libros
   private obtenerListaLibros() {
@@ -106,6 +126,68 @@ export class MainComponent {
       this.data = (response as Libro[]); 
       console.log(this.data);
     })
+  }
+
+  obtenerListaLibrosDisponibles() {
+    const url = 'http://localhost:4567/api/books'; // Cambia la URL según tu configuración
+
+    // Realiza la solicitud GET
+    this.http.get(url).subscribe(
+      (response: any) => {
+        console.log('Libros obtenidos:', response);
+
+        // Actualiza la lista de estudiantes con la respuesta del servidor
+        this.listaLibros = response;
+
+        // Puedes realizar otras acciones si es necesario
+      },
+      (error) => {
+        console.error('Error al obtener la lista de libros:', error);
+        // Puedes manejar errores aquí
+      }
+    );
+  }
+
+
+  editarValoracionLibro(titulo: string) {
+    const tituloCodificado = encodeURIComponent(titulo);
+    const urlX = 'http://localhost:4567/api/books/';
+    const url= urlX + tituloCodificado;
+    console.log("URL DEL LIBRO A CAMBIAR: ", url);
+
+    // Datos a enviar en el cuerpo de la solicitud
+    const datosActualizar = {
+      titulo: this.libroSeleccionadoValoracion?.titulo,
+      autor: this.libroSeleccionadoValoracion?.autor,
+      edicion: this.libroSeleccionadoValoracion?.edicion,
+      disponibilidad: this.libroSeleccionadoValoracion?.disponibilidad,
+      valoracion: this.libroaCambiar?.valoracion
+    };
+
+
+    // Realiza la solicitud PUT
+    this.http.put(url, datosActualizar).subscribe(
+      (response: any) => {
+        console.log('Valoracion actualizada:', response);
+
+        // Puedes realizar otras acciones si es necesario
+      },
+      (error) => {
+        console.error('Error al actualizar la valoracion del libro:', error);
+        // Puedes manejar errores aquí
+      }
+    );
+  }
+
+  seleccionarLibro(event: any) {
+
+    const libroSeleccionadoTitulo = event.target.value;
+    this.libroSeleccionadoValoracion = this.listaLibros.find(libro => libro.titulo === libroSeleccionadoTitulo) || null;
+
+    // Ahora 'libroSeleccionado' contiene el objeto completo del libro seleccionado
+    console.log('Libro seleccionado:', this.libroSeleccionadoValoracion);
+
+    // Puedes realizar otras acciones si es necesario con el libro seleccionado
   }
 
   
