@@ -16,7 +16,7 @@ import { ViewChild } from '@angular/core';
 })
 export class MainComponent {
    /* LISTA CON LOS ATRIBUTOS DE LA INTERFAZ */
-  displayedColumns: string[] = ['titulo','autor','edicion','disponibilidad','valoracion'];
+  displayedColumns: string[] = ['titulo','autor','edicion','disponibilidad','valoracion','acciones'];
   //Atributo con el tipo de dato de la interfaz
   public data : Libro[] = [];
   //LOGICA AGREGAR NUEVO LIBRO
@@ -25,10 +25,19 @@ export class MainComponent {
   mostrarFormulario: boolean = false;
   public filteredData: Libro[] = [];  // Nuevo array para almacenar resultados filtrados
   searchTerm: string = '';
+
   mostrarValoracion: boolean = false;
   public listaLibros: Libro[] = [];  // Nuevo array para almacenar resultados filtrados
   libroSeleccionado: Libro | null = null;
   libroSeleccionadoValoracion: Libro | null = null;
+
+
+  libroEditado: Libro | null = null;
+  libroOriginal: Libro | null = null;
+  modoEdicion: boolean = false;
+  mostrarFormEdicion: boolean = true;
+
+
   //Inyección de dependencia del servicio
   constructor(private dataProvider: DatosProvedorService, private http: HttpClient) { }
 
@@ -68,12 +77,43 @@ export class MainComponent {
     console.log('mostrarFormulario:', this.mostrarFormulario);
   }
 
-  editarLibro(){
+  editarLibro(libro: Libro) {
+    if (libro) {
+      // Asigna solo las propiedades que se pueden editar
+      this.libroEditado = { titulo: libro.titulo, autor: '', edicion: '', disponibilidad: false, valoracion: 0 };
+      this.libroOriginal = { ...libro };
+      this.mostrarFormEdicion = true;
+      this.modoEdicion = true;
+    }
+  }
+  
 
+  cancelarEdicion() {
+    this.mostrarFormEdicion = false;
+    this.modoEdicion = false;
+    this.libroEditado = null;
+    this.libroOriginal = null;
   }
 
-  eliminarLibro(){
 
+  eliminarLibro(titulo: string) {
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este libro?');
+
+    if (confirmacion) {
+      const url = `http://localhost:4567/api/books/${encodeURIComponent(titulo)}`;
+      this.http.delete(url).subscribe(
+        (response) => {
+          console.log('Libro eliminado exitosamente:', response);
+
+          // Actualiza la lista de libros después de la eliminación
+          this.obtenerListaLibros();
+        },
+        (error) => {
+          console.error('Error al eliminar el libro:', error);
+          // Puedes manejar errores aquí
+        }
+      );
+    }
   }
 
   valorarLibro(){
@@ -85,30 +125,42 @@ export class MainComponent {
   }
 
   guardarLibro() {
-    // Puedes enviar la información del nuevo libro al backend aquí usando HTTP POST
-    const url = 'http://localhost:4567/api/books'; // Cambia la URL según tu configuración
-
-    // También puedes agregar lógica de validación antes de enviar los datos al backend
-    console.log('Guardando libro:', this.nuevoLibro);
-
-    // Realiza la solicitud POST
-    this.http.post(url, this.nuevoLibro).subscribe(
-      (response) => {
-        console.log('Libro guardado exitosamente:', response);
-
-        // Después de guardar, puedes limpiar el formulario y ocultar el formulario nuevamente
-        this.nuevoLibro = { titulo: '', autor: '', edicion: '', disponibilidad: false, valoracion: 0 };
-        console.log('Libro nuevo:', this.nuevoLibro);
-        this.mostrarFormulario = false;
-
-        this.obtenerListaLibros();
-      },
-      (error) => {
-        console.error('Error al guardar el libro:', error);
-        // Puedes manejar errores aquí
-      }
-    );
+    if (this.modoEdicion && this.libroEditado) {
+      const url = `http://localhost:4567/api/books/${encodeURIComponent(this.libroEditado.titulo)}`;
+      const datosActualizados = { 
+        titulo: this.libroEditado.titulo,
+        autor: this.libroEditado.autor,
+        edicion: this.libroEditado.edicion,
+        disponibilidad: this.libroEditado.disponibilidad,
+        valoracion: this.libroEditado.valoracion
+      };
+  
+      this.http.put(url, datosActualizados).subscribe(
+        (response) => {
+          console.log('Libro editado exitosamente:', response);
+          this.cancelarEdicion(); // Cierra el formulario de edición
+          this.obtenerListaLibros();
+        },
+        (error) => {
+          console.error('Error al editar el libro:', error);
+        }
+      );
+    } else {
+      // Lógica para guardar un nuevo libro
+      const url = 'http://localhost:4567/api/books';
+      this.http.post(url, this.nuevoLibro).subscribe(
+        (response) => {
+          console.log('Libro guardado exitosamente:', response);
+          this.mostrarFormulario = false;
+          this.obtenerListaLibros();
+        },
+        (error) => {
+          console.error('Error al guardar el libro:', error);
+        }
+      );
+    }
   }
+  
 
   guardarValoracion(){
     this.editarValoracionLibro(this.libroaCambiar.titulo);

@@ -10,10 +10,6 @@
     <!-- Agrega el botón de agregar libro -->
     <button mat-raised-button color="primary" class="button-agregar-libro" (click)="agregarLibro()">Agregar</button>
     <div style="margin-right: 10px;"></div>
-    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="editarLibro()">Editar</button>
-    <div style="margin-right: 10px;"></div>
-    <button mat-raised-button color="primary" class="button-agregar-libro" (click)="eliminarLibro()">Eliminar</button>
-    <div style="margin-right: 10px;"></div>
     <button mat-raised-button color="primary" class="button-agregar-libro" (click)="valorarLibro()">Valorar</button>
   </div>
 <p></p>
@@ -66,44 +62,89 @@
             </form>
           </div>
 
-        <table mat-table [dataSource]="data" class="mat-elevation-z8">
+
+<!-- Formulario de edición -->
+<div *ngIf="mostrarFormEdicion && libroEditado">
+  <h2>Editar Libro</h2>
+  <form (ngSubmit)="guardarLibro()" #libroForm="ngForm">
+    <div>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" [ngModel]="libroEditado.titulo" readonly disabled>
+    </div>
+    <div>
+      <label for="autor">Autor:</label>
+      <input type="text" id="autor" name="autor" [(ngModel)]="libroEditado.autor">
+    </div>
+    <div>
+      <label for="edicion">Edición:</label>
+      <input type="text" id="edicion" name="edicion" [(ngModel)]="libroEditado.edicion">
+    </div>
+    <div>
+      <label for="disponibilidad">Disponibilidad:</label>
+      <input type="text" id="disponibilidad" name="disponibilidad" [ngModel]="libroEditado.disponibilidad ? 'Disponible' : 'No disponible'" readonly disabled>
+    </div>
+    <div>
+      <label for="valoracion">Valoración:</label>
+      <input type="text" id="valoracion" name="valoracion" [ngModel]="libroEditado.valoracion" readonly disabled>
+    </div>
+
+    <!-- Botones del formulario -->
+    <button type="submit">Guardar</button>
+    <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+  </form>
+</div>
+
+<table mat-table [dataSource]="data" class="mat-elevation-z8">
   
-            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
-            <ng-container matColumnDef="titulo">
-                <th mat-header-cell *matHeaderCellDef> titulo </th>
-                <td mat-cell *matCellDef="let element">  {{element.titulo}} </td>
-            </ng-container>
-            <!-- FIN -->
-            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
-            <ng-container matColumnDef="autor">
-                <th mat-header-cell *matHeaderCellDef> autor </th>
-                <td mat-cell *matCellDef="let element">  {{element.autor}} </td>
-            </ng-container>
-            <!-- FIN -->
-            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
-            <ng-container matColumnDef="edicion">
-                <th mat-header-cell *matHeaderCellDef> edicion </th>
-                <td mat-cell *matCellDef="let element">  {{element.edicion}} </td>
-            </ng-container>
-            <!-- FIN -->
-            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
-            <ng-container matColumnDef="disponibilidad">
-                <th mat-header-cell *matHeaderCellDef> disponibilidad </th>
-                <td mat-cell *matCellDef="let element">  {{element.disponibilidad}} </td>
-            </ng-container>
-            <!-- FIN -->
-            <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
-            <ng-container matColumnDef="valoracion">
-                <th mat-header-cell *matHeaderCellDef> valoracion </th>
-                <td mat-cell *matCellDef="let element">  {{element.valoracion}} </td>
-            </ng-container>
-            <!-- FIN -->
-  
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        
-        
+  <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+  <ng-container matColumnDef="titulo">
+      <th mat-header-cell *matHeaderCellDef> titulo </th>
+      <td mat-cell *matCellDef="let element">  {{element.titulo}} </td>
+  </ng-container>
+  <!-- FIN -->
+  <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+  <ng-container matColumnDef="autor">
+      <th mat-header-cell *matHeaderCellDef> autor </th>
+      <td mat-cell *matCellDef="let element">  {{element.autor}} </td>
+  </ng-container>
+  <!-- FIN -->
+  <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+  <ng-container matColumnDef="edicion">
+      <th mat-header-cell *matHeaderCellDef> edicion </th>
+      <td mat-cell *matCellDef="let element">  {{element.edicion}} </td>
+  </ng-container>
+  <!-- FIN -->
+  <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+  <ng-container matColumnDef="disponibilidad">
+      <th mat-header-cell *matHeaderCellDef> disponibilidad </th>
+      <td mat-cell *matCellDef="let element">  {{element.disponibilidad}} </td>
+  </ng-container>
+  <!-- FIN -->
+  <!-- REPETIR POR CADA ATRIBUTO DE LA INTERFAZ - INICIO -->
+  <ng-container matColumnDef="valoracion">
+      <th mat-header-cell *matHeaderCellDef> valoracion </th>
+      <td mat-cell *matCellDef="let element">  {{element.valoracion}} </td>
+  </ng-container>
+  <!-- FIN -->
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="editarLibro(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="eliminarLibro(element.titulo)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
 
 
     </div>
