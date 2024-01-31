@@ -42,67 +42,6 @@ export class MainComponent {
     console.log('mostrarFormulario:', this.mostrarFormulario);
   }
 
-  /*
-  public filteredData: Libro[] = [];  // Nuevo array para almacenar resultados filtrados
-  searchTerm: string = '';
-  
-  constructor(private dataProvider: DatosProvedorService, private http: HttpClient) { }
-
-  ngOnInit() {
-    this.dataProvider.getResponse().subscribe((response) => { 
-      this.data = (response as Libro[]); 
-      console.log(this.data);
-    })
-  }
-
-  loadData() {
-    this.dataProvider.getResponse().subscribe((response) => {
-      this.data = response as Libro[];
-      this.filteredData = [...this.data];  // Inicializa el array filtrado con todos los libros
-    });
-  }
-
-  // Nuevo método de búsqueda
-  search2() {
-    if (this.searchTerm.trim() === '') {
-      this.loadData();  // Si la búsqueda está vacía, cargar todos los libros
-    } else {
-      this.filteredData = this.data.filter(libro =>
-        libro.titulo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        libro.autor.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-    console.log("Prueba: ",this.filteredData)
-  }
-
-  searchForm() {
-    // Llama al método search() con los valores actuales de searchTerm
-    this.search(this.searchTerm);
-  }
-
-  search(titulo: string) {
-    const url = 'http://localhost:4567/api/libros/buscar/titulo/${titulo}';
-    
-    // Cambia la URL y la estructura de la consulta según tu configuración en el backend
-  
-    // Realiza la solicitud GET
-    this.http.get(url).subscribe(
-      (response: any) => {
-        console.log('Libros encontrados:', response);
-  
-        // Actualiza la lista de libros filtrados con los resultados de la búsqueda
-        this.filteredData = response;
-  
-        // Puedes realizar otras acciones si es necesario
-      },
-      (error) => {
-        console.error('Error al buscar libros:', error);
-        // Puedes manejar errores aquí
-      }
-    );
-  }
-  
-  */ 
 
   searchForm() {
     // Llama al método search() con los valores actuales de searchTerm
@@ -112,10 +51,11 @@ export class MainComponent {
 
   search() {
     console.log("Titulo a buscar: ", this.searchTerm);
-    const url1 = 'http://localhost:4567/api/books/buscar/titulo/';
-    const url = url1 + this.searchTerm;
+
+    const url = `http://localhost:4567/api/books/buscar?termino=${encodeURIComponent(this.searchTerm)}`;
+
     console.log("url: ",url)
-    
+
     // Cambia la URL y la estructura de la consulta según tu configuración en el backend
   
     // Realiza la solicitud GET
@@ -135,6 +75,8 @@ export class MainComponent {
         // Puedes manejar errores aquí
       }
     );
+
+
   }
 
 
